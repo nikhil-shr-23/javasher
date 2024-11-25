@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: javasher-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://javasher-backend.onrender.com
+
+  - type: web
+    name: javasher-backend
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: cd server && node server.js
+    envVars:
+      - key: PORT
+        value: 10000
