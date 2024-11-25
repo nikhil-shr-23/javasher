@@ -1,9 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const tmp = require('tmp');
-const fs = require('fs');
-const { exec } = require('child_process');
-const path = require('path');
+import express from 'express';
+import cors from 'cors';
+import tmp from 'tmp';
+import fs from 'fs';
+import { exec } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3001;
