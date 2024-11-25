@@ -6,76 +6,54 @@ import * as monaco from 'monaco-editor'
 // Configure Monaco Editor with Java language features
 loader.init().then((monaco) => {
   // Add Java keywords
-  monaco.languages.registerCompletionItemProvider('java', {
-    provideCompletionItems: () => {
-      const suggestions = [
+  const completionProvider = (model: monaco.editor.ITextModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+    return {
+      suggestions: [
         {
           label: 'System.out.println',
           kind: monaco.languages.CompletionItemKind.Function,
-          insertText: 'System.out.println(${1:});',
+          insertText: 'System.out.println($1);',
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Print to standard output'
+          documentation: 'Print to standard output',
+          range: {
+            startLineNumber: position.lineNumber,
+            startColumn: position.column,
+            endLineNumber: position.lineNumber,
+            endColumn: position.column,
+          }
         },
         {
           label: 'public class',
           kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: [
-            'public class ${1:ClassName} {',
-            '\tpublic static void main(String[] args) {',
-            '\t\t${2}',
-            '\t}',
-            '}'
-          ].join('\n'),
+          insertText: 'public class ${1:ClassName} {\n\t$0\n}',
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Create a new Java class with main method'
+          documentation: 'Create a public class',
+          range: {
+            startLineNumber: position.lineNumber,
+            startColumn: position.column,
+            endLineNumber: position.lineNumber,
+            endColumn: position.column,
+          }
         },
         {
-          label: 'for',
+          label: 'public static void main',
           kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: 'for (int ${1:i} = 0; ${1:i} < ${2:length}; ${1:i}++) {\n\t${3}\n}',
+          insertText: 'public static void main(String[] args) {\n\t$0\n}',
           insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'For loop'
-        },
-        {
-          label: 'while',
-          kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: 'while (${1:condition}) {\n\t${2}\n}',
-          insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'While loop'
-        },
-        {
-          label: 'if',
-          kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: 'if (${1:condition}) {\n\t${2}\n}',
-          insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'If statement'
-        },
-        {
-          label: 'try-catch',
-          kind: monaco.languages.CompletionItemKind.Snippet,
-          insertText: 'try {\n\t${1}\n} catch (${2:Exception} e) {\n\t${3}\n}',
-          insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Try-catch block'
-        },
-        // Java keywords
-        ...['public', 'private', 'protected', 'static', 'final', 'void', 'int', 'String', 'boolean', 'double', 'float', 'long']
-          .map(keyword => ({
-            label: keyword,
-            kind: monaco.languages.CompletionItemKind.Keyword,
-            insertText: keyword
-          })),
-        // Common Java classes
-        ...['ArrayList', 'HashMap', 'List', 'Map', 'Set', 'String', 'Integer', 'Double', 'Boolean']
-          .map(className => ({
-            label: className,
-            kind: monaco.languages.CompletionItemKind.Class,
-            insertText: className,
-            documentation: `Java ${className} class`
-          }))
-      ];
-      
-      return { suggestions };
-    }
+          documentation: 'Create main method',
+          range: {
+            startLineNumber: position.lineNumber,
+            startColumn: position.column,
+            endLineNumber: position.lineNumber,
+            endColumn: position.column,
+          }
+        }
+      ]
+    };
+  };
+
+  monaco.languages.registerCompletionItemProvider('java', {
+    provideCompletionItems: completionProvider
   });
 });
 
@@ -144,16 +122,16 @@ function App() {
     }
   }
 
-  const editorOptions = {
+  const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
     minimap: { enabled: false },
     fontSize: 14,
-    lineNumbers: "on",
+    lineNumbers: 'on',
     automaticLayout: true,
-    snippetSuggestions: 'top',
+    snippetSuggestions: 'inline',
     suggestOnTriggerCharacters: true,
     acceptSuggestionOnEnter: 'on',
     quickSuggestions: true,
-    tabCompletion: 'on',
+    tabCompletion: 'on'
   }
 
   return (
