@@ -14,8 +14,9 @@ const port = process.env.PORT || 3001;
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://javasher.onrender.com', 'http://localhost:5173'],
-  methods: ['GET', 'POST'],
+  origin: ['https://javasherr.onrender.com', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
 }));
