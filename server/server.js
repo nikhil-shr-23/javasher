@@ -14,14 +14,18 @@ const port = process.env.PORT || 3001;
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://javasher.onrender.com', 'https://javasher-frontend.onrender.com']
-    : 'http://localhost:5173',
+  origin: ['https://javasher.onrender.com', 'http://localhost:5173'],
   methods: ['GET', 'POST'],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 
 app.use(express.json());
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'JavaSher Compiler API is running' });
+});
 
 app.post('/compile', async (req, res) => {
   const { code } = req.body;
