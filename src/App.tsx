@@ -138,7 +138,7 @@ function App() {
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="w-full px-2 py-4">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4 max-w-[98%] mx-auto space-y-2 sm:space-y-0">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">JavaSher</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">JavaSherr</h1>
           <div className="flex flex-wrap items-center gap-2">
             <input
               type="file"
