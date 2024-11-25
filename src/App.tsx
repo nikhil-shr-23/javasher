@@ -6,7 +6,7 @@ import * as monaco from 'monaco-editor'
 // Configure Monaco Editor with Java language features
 loader.init().then((monaco) => {
   // Add Java keywords
-  const completionProvider = (model: monaco.editor.ITextModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+  const completionProvider = (_model: monaco.editor.ITextModel, position: monaco.Position): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
     return {
       suggestions: [
         {
